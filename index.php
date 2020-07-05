@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prirodno Kretanje Stanovništva</title>
     <link rel="stylesheet" type="text/css" href="style/index.css" media="screen" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="shortcut icon" href="images/main.png">
     <script src="scripts/d3.js"></script>
     <script src="scripts/jquery.js"></script>
@@ -23,16 +22,16 @@
     <div id="container">
         <div class="row">
             <div class="column" id="colMap">
-                <button type="button" class="btn btn-dark btnReset" onClick="resetZoom()">Reset zoom</button>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-dark btnReset" onClick="resetZoom()">Reset zoom</button>
+                </div>
                 <div class="dropdown">
                     <button type="button" class="btn btn-info dropdown-toggle">
                         Tip migracije
                     </button>
                     <div class="dropdown-menu">
-                        <button class="dropdown-item" type="button"
-                            onClick="changeType('doseljeni_ukupno')">Doseljavanje</button>
-                        <button class="dropdown-item" type="button"
-                            onClick="changeType('odseljeni_ukupno')">Odseljavanje</button>
+                        <button class="dropdown-item" type="button" onClick="changeType('doseljeni_ukupno')">Doseljavanje</button>
+                        <button class="dropdown-item" type="button" onClick="changeType('odseljeni_ukupno')">Odseljavanje</button>
                     </div>
                 </div>
                 <div class="dropdown">
@@ -49,17 +48,19 @@
                         <button class="dropdown-item" type="button" onClick="changeYear(2016)">2016</button>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success" id="btnAnimation" onClick="startStop(0)">Pokreni
-                    animaciju</button>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-success" id="btnAnimation" onClick="startStop(0)">Pokreni
+                        animaciju</button>
+                </div>
                 <h3 id="currentMigration"></h3>
                 <script>
-
                     //Sirina i visina svg prostora
                     //Lock varijabla za onemogucavanje klikanja pokreni ako je vec pokrenuta animacija
                     //Places ce sadrzavati mjesta za odabranu godinu
                     var width = window.screen.width,
                         height = window.screen.height,
-                        lock = false, places;
+                        lock = false,
+                        places;
                     var colors = ["#F6E0A9", "#F29F4A", "#CC0404", "#6C0303"];
 
                     var years = [2010, 2011, 2012, 2013, 2014, 2015, 2016];
@@ -103,7 +104,7 @@
 
                     //Kreiraj svg prostor za dodavanje karte
                     var svg = d3.select("#colMap")
-                        .append("svg")            
+                        .append("svg")
                         .attr("width", "100%")
                         .attr("height", "100%")
                         .attr("class", "map")
@@ -113,19 +114,21 @@
                     var g = svg.append("g");
 
                     //Ucitaj topoJson Hrvatske
-                    d3.json("cro_regv3.json", function (error, cro) {
+                    d3.json("cro_regv3.json", function(error, cro) {
                         var data = topojson.feature(cro, cro.objects.layer1);
                         g.selectAll("path.county")
                             .data(data.features)
                             .enter()
                             .append("path")
                             .attr("class", "county")
-                            .attr("id", function (d) { return d.id; })
+                            .attr("id", function(d) {
+                                return d.id;
+                            })
                             .attr("d", path)
                             .style("stroke", "white")
                             .style("stroke-width", 0.3)
                             .on("click", clicked)
-                            .on("mouseover", function (d) {
+                            .on("mouseover", function(d) {
                                 div.transition()
                                     .duration(300)
                                     .style("opacity", 1);
@@ -133,7 +136,7 @@
                                     .style("left", (d3.event.pageX) + "px")
                                     .style("top", (d3.event.pageY - 28) + "px");
                             })
-                            .on("mouseout", function (d) {
+                            .on("mouseout", function(d) {
                                 div.transition()
                                     .duration(300)
                                     .style("opacity", 0);
@@ -145,14 +148,16 @@
 
                     function setMap(year) {
 
-                        d3.json("kretanje_stanovnistva.json", function (error, data) {
+                        d3.json("kretanje_stanovnistva.json", function(error, data) {
                             //Places sadrzava mjesta i podatke prema odabranoj godini
-                            places = data.filter(function (place) {
+                            places = data.filter(function(place) {
                                 return place.godina == year;
                             })
 
                             //Uzima se najveca vrijednost ovisno o odabranom tipu migracije
-                            var max = d3.max(places, function (d) { return d[type] });
+                            var max = d3.max(places, function(d) {
+                                return d[type]
+                            });
 
                             //Skriva se info tab o gradu i zupaniji jer nisu jos odabrani
                             (document.getElementsByClassName("zupanija_info"))[0].style.display = "none";
@@ -180,10 +185,10 @@
                                 .data(places)
                                 .enter()
                                 .append("rect")
-                                .attr("x", function (d) {
+                                .attr("x", function(d) {
                                     return projection([parseFloat(d.lng), parseFloat(d.lat)])[0];
                                 })
-                                .attr("y", function (d) {
+                                .attr("y", function(d) {
                                     return projection([parseFloat(d.lng), parseFloat(d.lat)])[1];
                                 })
                                 .attr("height", 1.7)
@@ -196,23 +201,23 @@
                                 .data(places)
                                 .enter()
                                 .append("circle")
-                                .attr("cx", function (d) {
+                                .attr("cx", function(d) {
                                     return projection([parseFloat(d.lng) + 0.0064, parseFloat(d.lat)])[0];
                                 })
-                                .attr("cy", function (d) {
+                                .attr("cy", function(d) {
                                     return projection([parseFloat(d.lng), parseFloat(d.lat) - 0.005])[1];
                                 })
-                                .attr("r", function (d) {
+                                .attr("r", function(d) {
                                     return circleScale(d[type]);
                                 })
-                                .style("fill", function (d) {
+                                .style("fill", function(d) {
                                     return colors[indexScale(d[type])];
                                 })
                                 .style("opacity", 0.4)
                                 .style("stroke", "black")
                                 .style("stroke-width", 0.1)
                                 .on("click", clickCity)
-                                .on("mouseover", function (d) {
+                                .on("mouseover", function(d) {
                                     div.transition()
                                         .duration(200)
                                         .style("opacity", 1);
@@ -220,7 +225,7 @@
                                         .style("left", (d3.event.pageX) + "px")
                                         .style("top", (d3.event.pageY - 28) + "px");
                                 })
-                                .on("mouseout", function (d) {
+                                .on("mouseout", function(d) {
                                     div.transition()
                                         .duration(300)
                                         .style("opacity", 0);
@@ -242,55 +247,54 @@
                     //Uz to priblizava kartu za bolji pregled zupanije i gradova
                     //Priblizavanje i dimenzije ovise o velicini prozora
                     function clicked(d) {
-                        const [[x0, y0], [x1, y1]] = path.bounds(d);
+                        const [
+                            [x0, y0],
+                            [x1, y1]
+                        ] = path.bounds(d);
                         d3.event.stopPropagation();
                         if ($("#colMap").width() > 1000) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                    .translate($("#colMap").width() / 7, $("#colMap").height() / 2.3)
-                                    .scale(Math.min(4, 0.9 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
-                                    .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 2.1),
+                                .translate($("#colMap").width() / 7, $("#colMap").height() / 2.3)
+                                .scale(Math.min(4, 0.9 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 2.1),
                                 d3.mouse(svg.node())
                             );
-                        }
-                        else if ($("#colMap").width() > 800) {
+                        } else if ($("#colMap").width() > 800) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                    .translate($("#colMap").width() / 5.5, $("#colMap").height() / 1)
-                                    .scale(Math.min(14, 0.9 / Math.max((x1 - x0) / $("#colMap").width() * 5.138, (y1 - y0) / $("#colMap").height())))
-                                    .translate(-(x0 + x1) / 7.2, -(y0 + y1) / 1.7),
+                                .translate($("#colMap").width() / 5.5, $("#colMap").height() / 1)
+                                .scale(Math.min(14, 0.9 / Math.max((x1 - x0) / $("#colMap").width() * 5.138, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 7.2, -(y0 + y1) / 1.7),
                                 d3.mouse(svg.node())
                             );
-                        }
-                        else if ($("#colMap").width() > 600) {
+                        } else if ($("#colMap").width() > 600) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                    .translate($("#colMap").width() / 25, $("#colMap").height() / 14.3)
-                                    .scale(Math.min(14, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
-                                    .translate(-(x0 + x1) / 2.36, -(y0 + y1) / 2.3121),
+                                .translate($("#colMap").width() / 25, $("#colMap").height() / 14.3)
+                                .scale(Math.min(14, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.36, -(y0 + y1) / 2.3121),
                                 d3.mouse(svg.node())
                             );
-                        }
-                        else if ($("#colMap").width() > 500) {
+                        } else if ($("#colMap").width() > 500) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                    .translate($("#colMap").width() / 25, $("#colMap").height() / 17.3)
-                                    .scale(Math.min(5, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
-                                    .translate(-(x0 + x1) / 2.6159, -(y0 + y1) / 2.81),
+                                .translate($("#colMap").width() / 25, $("#colMap").height() / 17.3)
+                                .scale(Math.min(5, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.6159, -(y0 + y1) / 2.81),
                                 d3.mouse(svg.node())
                             );
-                        }
-                        else {
+                        } else {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                    .translate($("#colMap").width() / 25, $("#colMap").height() / 17.3)
-                                    .scale(Math.min(5, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
-                                    .translate(-(x0 + x1) / 2.4159, -(y0 + y1) / 2.65),
+                                .translate($("#colMap").width() / 25, $("#colMap").height() / 17.3)
+                                .scale(Math.min(5, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.4159, -(y0 + y1) / 2.65),
                                 d3.mouse(svg.node())
                             );
                         }
@@ -310,12 +314,10 @@
                         if ($("#container").width() > 1200) {
                             d3.select("g").attr("transform", "scale(" + $("#container").width() / 2200 + ")");
                             $("svg").height($("#container").width() * 0.37);
-                        }
-                        else if ($("#container").width() < 1200 && $("#container").width() > 800) {
+                        } else if ($("#container").width() < 1200 && $("#container").width() > 800) {
                             d3.select("g").attr("transform", "scale(" + $("#container").width() / 2900 + ")");
                             $("svg").height($("#container").width() * 0.438);
-                        }
-                        else {
+                        } else {
                             d3.select("g").attr("transform", "scale(" + $("#container").width() / 1500 + ")");
                             $("svg").height($("#container").width() * 0.538);
                         }
@@ -323,7 +325,9 @@
 
                     //Funkcija za zumiranje prilikom skrolanja misem
                     function zoomed() {
-                        const { transform } = d3.event;
+                        const {
+                            transform
+                        } = d3.event;
                         g.attr("transform", transform);
                         g.attr("stroke-width", 1 / transform.k);
                     }
@@ -338,7 +342,7 @@
 
                     //Prebrojavanje koliko ima gradova u danoj zupaniji
                     function countCities(zupanija) {
-                        return (places.filter(function (place) {
+                        return (places.filter(function(place) {
                             return place.zupanija == zupanija;
                         })).length;
                     }
@@ -346,7 +350,7 @@
                     //Prebrojavanje koliko ima doseljenih u danoj zupaniji
                     function countDoseljeno(zupanija) {
                         var sumaDoseljenih = 0;
-                        var gradovi = places.forEach(function (place) {
+                        var gradovi = places.forEach(function(place) {
                             if (place.zupanija == zupanija) {
                                 sumaDoseljenih += place.doseljeni_ukupno;
                             }
@@ -357,7 +361,7 @@
                     //Prebrojavanje koliko ima odseljenih u danoj zupaniji
                     function countOdseljeno(zupanija) {
                         var sumaOdseljenih = 0;
-                        var gradovi = places.filter(function (place) {
+                        var gradovi = places.filter(function(place) {
                             if (place.zupanija == zupanija) {
                                 sumaOdseljenih += place.odseljeni_ukupno;
                             }
@@ -382,11 +386,10 @@
                     function startStop(index) {
                         if (lock && index == 0) {
                             return;
-                        }
-                        else {
+                        } else {
                             lock = true;
                             document.getElementById("btnAnimation").disabled = true;
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 if (index < years.length) {
                                     g.selectAll("circle").remove();
                                     setMap(years[index]);
@@ -395,15 +398,13 @@
                                     let type = window.localStorage.getItem("type");
                                     if (type == "odseljeni_ukupno") {
                                         document.getElementById("currentMigration").innerHTML = "Odseljeni - " + years[index] + ". godina";
-                                    }
-                                    else {
+                                    } else {
                                         document.getElementById("currentMigration").innerHTML = "Doseljeni - " + years[index] + ". godina";
                                     }
 
                                     index++;
                                     startStop(index);
-                                }
-                                else {
+                                } else {
                                     reset();
                                 }
                             }, 1400);
@@ -414,8 +415,7 @@
                     function setTitle() {
                         if (window.localStorage.getItem("type") == "odseljeni_ukupno") {
                             document.getElementById("currentMigration").innerHTML = "Odseljeni - " + window.localStorage.getItem("year") + ". godina";
-                        }
-                        else {
+                        } else {
                             document.getElementById("currentMigration").innerHTML = "Doseljeni - " + window.localStorage.getItem("year") + ". godina";
                         }
                     }
@@ -436,7 +436,6 @@
                         window.localStorage.setItem("zupanija", zupanija);
                         window.location = "info.php"
                     }
-
                 </script>
             </div>
             <div class="column-xs-3 legenda">
