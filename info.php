@@ -89,7 +89,8 @@
         var prostor_kretanja = window.localStorage.getItem("prostor_kretanja");
 
         if (zupanija == null) {
-            window.location = "/index.html"
+            zupanija = "Grad Zagreb";
+	    //window.location = "/index.html";
         }
 
         if (tip_migracije == null) {

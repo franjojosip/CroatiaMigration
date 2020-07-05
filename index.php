@@ -104,7 +104,7 @@
                     //Kreiraj svg prostor za dodavanje karte
                     var svg = d3.select("#colMap")
                         .append("svg")            
-			.attr("viewBox", [0, 0, width, height]);
+			.attr("viewBox", [0, 0, width, height])
                         .attr("class", "map")
                         .append("g")
 
