@@ -22,7 +22,7 @@
     </header>
     <h3 id="zupanija"></h3>
     <div id="divBack">
-        <a type="button" class="btn btn-dark" href="/index.php">Glavna stranica</a>
+        <a type="button" class="btn btn-dark" href="index.php">Glavna stranica</a>
     </div>
     <div id="infoContainer">
         <div class="row">
