@@ -106,6 +106,7 @@
                         .append("svg")
                         .attr("width", "100%")
                         .attr("height", "100%")
+                        .style("background-color", "red")
                         .attr("class", "map")
                         .append("g")
 
