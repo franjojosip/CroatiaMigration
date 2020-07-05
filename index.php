@@ -49,8 +49,7 @@
                     </div>
                 </div>
                 <div class="dropdown">
-                    <button type="button" class="btn btn-success" id="btnAnimation" onClick="startStop(0)">Pokreni
-                        animaciju</button>
+                    <button type="button" class="btn btn-success" id="btnAnimation" onClick="startStop(0)">Pokreni animaciju</button>
                 </div>
                 <h3 id="currentMigration"></h3>
                 <script>

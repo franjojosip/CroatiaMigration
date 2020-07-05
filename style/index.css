@@ -86,10 +86,6 @@ li {
   margin-left: 10px;
 }
 
-#btnAnimation {
-  margin: 10px;
-}
-
 #currentMigration {
   text-align: center;
   margin: 20px;
@@ -139,6 +135,24 @@ li {
   .info {
     margin-bottom: 0px;
   }
+
+  .dropdown {
+    margin-bottom: 20px;
+    margin-left: 30%;
+    width: 40%;
+    /* Firefox */
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+    /* Safari and Chrome */
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    /* W3C */
+    display: box;
+    box-pack: center;
+    box-align: center;
+  }
 }
 
 /* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
@@ -152,8 +166,22 @@ li {
     width: 90%;
   }
 
-  #btnAnimation {
-    margin-left: 29%;
+  .dropdown {
+    margin-bottom: 20px;
+    margin-left: 30%;
+    width: 40%;
+    /* Firefox */
+    display: -moz-box;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+    /* Safari and Chrome */
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    /* W3C */
+    display: box;
+    box-pack: center;
+    box-align: center;
   }
 }
 
