@@ -6,7 +6,7 @@ h1,
   font-size: 33px;
   margin: 1% !important;
 }
-html{
+html {
   width: 100%;
 }
 
@@ -54,7 +54,7 @@ div.tooltip {
   padding: 20px;
 }
 
-.map{
+.map {
   background-color: rgba(142, 193, 252, 0.151);
 }
 
@@ -209,11 +209,15 @@ g {
   }
 }
 
+.row{
+  margin-left: 0px !important;
+}
 /* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 1100px) {
   .row {
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
   .column {
     width: 100%;
@@ -257,12 +261,15 @@ g {
     width: 180px !important;
   }
 
-  #btnReset{
+  #btnReset {
     height: 40px !important;
   }
 
   .dropdown {
     position: center;
+  }
+  #colMap .column {
+    width: 100% !important;
   }
 
   .dropdown-menu {
@@ -276,11 +283,15 @@ g {
 }
 
 @media screen and (max-width: 400px) {
-  li{
+  li {
     width: 100% !important;
   }
-  .legenda{
+  .legenda {
     width: 100% !important;
+  }
+  h3 {
+    width: 100% !important;
+    position: center;
   }
 }
 
@@ -308,7 +319,7 @@ footer {
   font-style: Roboto;
   font-size: 16px;
   text-align: center;
-   width: 100%;
+  width: 100%;
 }
 p {
   font-family: Roboto;

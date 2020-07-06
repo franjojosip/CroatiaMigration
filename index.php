@@ -290,7 +290,7 @@
                                 d3.zoomIdentity
                                 .translate($("#colMap").width() / 5, $("#colMap").height() / 24.3)
                                 .scale(Math.min(15, 0.4 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 3.34, -(y0 + y1) / 3),
+                                .translate(-(x0 + x1) / 2.24, -(y0 + y1) / 3),
                                 d3.mouse(svg.node())
                             );
                         } else if ($("#colMap").width() > 800) {
@@ -391,11 +391,14 @@
                             var transform = d3.zoomIdentity.translate(200, 0).scale(0.8)
                         } else if ($("#colMap").width() > 1100) {
 
-                            var transform = d3.zoomIdentity.translate(300, -15).scale(0.8)
+                            var transform = d3.zoomIdentity.translate(200, -15).scale(0.8)
                         } else if ($("#colMap").width() > 1000) {
 
-                            var transform = d3.zoomIdentity.translate(200, -50).scale(0.78)
+                            var transform = d3.zoomIdentity.translate(170, -50).scale(0.75)
                         } else if ($("#colMap").width() > 900) {
+
+                            var transform = d3.zoomIdentity.translate(170, -40).scale(0.75)
+                        } else if ($("#colMap").width() > 800) {
 
                             var transform = d3.zoomIdentity.translate(150, -30).scale(0.7)
                         } else if ($("#colMap").width() > 700) {
