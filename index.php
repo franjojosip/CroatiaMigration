@@ -255,7 +255,6 @@
                             [x1, y1]
                         ] = path.bounds(d);
                         d3.event.stopPropagation();
-                        console.log($("#colMap").width());
                         if ($("#colMap").width() > 1300) {
                             let zoom = d3.zoom()
                                 .extent([
@@ -474,8 +473,6 @@
                                 if (index < years.length) {
                                     g.selectAll("circle").remove();
                                     setMap(years[index]);
-                                    console.log(years[index]);
-
                                     let type = window.localStorage.getItem("type");
                                     if (type == "odseljeni_ukupno") {
                                         document.getElementById("currentMigration").innerHTML = "Odseljeni - " + years[index] + ". godina";
