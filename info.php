@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prirodno Kretanje Stanovništva</title>
     <link rel="stylesheet" type="text/css" href="style/info.css" media="screen" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="shortcut icon" href="images/main.png">
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -21,34 +20,33 @@
         </h1>
     </header>
     <h3 id="zupanija"></h3>
-    <div id="divBack">
-        <a type="button" class="btn btn-dark" href="/index.php">Glavna stranica</a>
-    </div>
     <div id="infoContainer">
         <div class="row">
             <div class="column" id="colMap">
-                <div class="dropdown" style="margin-left: 80px;">
-                    <button type="button" class="btn btn-info dropdown-toggle">
-                        Tip migracije
-                    </button>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item" type="button"
-                            onClick="changeType('doseljeni')">Doseljavanje</button>
-                        <button class="dropdown-item" type="button"
-                            onClick="changeType('odseljeni')">Odseljavanje</button>
+                <div style="text-align: center; width: 100%;">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-info dropdown-toggle" style="width: 200px;">
+                            Tip migracije
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item" type="button" onClick="changeType('doseljeni')">Doseljavanje</button>
+                            <button class="dropdown-item" type="button" onClick="changeType('odseljeni')">Odseljavanje</button>
+                        </div>
                     </div>
-                </div>
-                <div class="dropdown">
-                    <button type="button" class="btn btn-info dropdown-toggle">
-                        Prostor kretanja
-                    </button>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item" type="button"
-                            onClick="changePlace('grad_opcina')">Grad/Općina</button>
-                        <button class="dropdown-item" type="button" onClick="changePlace('zupanija')">Županija</button>
-                        <button class="dropdown-item" type="button"
-                            onClick="changePlace('inozemstvo')">Inozemstvo</button>
-                        <button class="dropdown-item" type="button" onClick="changePlace('ukupno')">Ukupno</button>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-info dropdown-toggle">
+                            Prostor kretanja
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item" type="button" onClick="changePlace('grad_opcina')">Grad/Općina</button>
+                            <button class="dropdown-item" type="button" onClick="changePlace('zupanija')">Županija</button>
+                            <button class="dropdown-item" type="button" onClick="changePlace('inozemstvo')">Inozemstvo</button>
+                            <button class="dropdown-item" type="button" onClick="changePlace('ukupno')">Ukupno</button>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a type="button" class="btn btn-dark" href="/index.php">Glavna stranica</a>
                     </div>
                 </div>
                 <h5 id="graphTitle"></h5>
@@ -110,13 +108,13 @@
 
         function setGraph() {
 
-            d3.json("kretanje_stanovnistva.json", function (error, data) {
+            d3.json("kretanje_stanovnistva.json", function(error, data) {
 
                 //Raspon godina koje graf prikazuje
                 var years = [2010, 2011, 2012, 2013, 2014, 2015, 2016];
 
                 //Filtriranje podataka samo za trazenu zupaniju
-                var filteredData = data.filter(function (place) {
+                var filteredData = data.filter(function(place) {
                     return place.zupanija == zupanija;
                 })
 
@@ -124,13 +122,13 @@
                 var parseTime = d3.timeParse("%Y");
 
                 //Pretraga i dohvacanje samo onih vrijednosti koji se odnose na trazeni tip i godinu migracije
-                years.forEach(function (item) {
-                    var places = filteredData.filter(function (place) {
+                years.forEach(function(item) {
+                    var places = filteredData.filter(function(place) {
                         return place.godina == item;
                     })
 
                     var sum = 0;
-                    places.forEach(function (item) {
+                    places.forEach(function(item) {
                         sum += item[tip_migracije + "_" + prostor_kretanja];
                     })
 
@@ -142,12 +140,26 @@
                 });
 
                 //Trazenje min i max vrijednost y osi
-                var max = d3.max(dictionary, function (d) { return d.ukupno });
-                var min = d3.min(dictionary, function (d) { return d.ukupno });
+                var max = d3.max(dictionary, function(d) {
+                    return d.ukupno
+                });
+                var min = d3.min(dictionary, function(d) {
+                    return d.ukupno
+                });
 
                 //Postavljanje dimenzija
-                var margin = { top: 20, right: 20, bottom: 110, left: 40 },
-                    margin2 = { top: 430, right: 20, bottom: 40, left: 40 },
+                var margin = {
+                        top: 20,
+                        right: 20,
+                        bottom: 110,
+                        left: 40
+                    },
+                    margin2 = {
+                        top: 430,
+                        right: 20,
+                        bottom: 40,
+                        left: 40
+                    },
                     width = 960 - margin.left - margin.right,
                     height = 500 - margin.top - margin.bottom,
                     height2 = 500 - margin2.top - margin2.bottom;
@@ -172,25 +184,42 @@
 
                 //Varijabla za postavlja prostora uvecavanja grafa
                 var brush = d3.brushX()
-                    .extent([[0, 0], [width, height2]])
+                    .extent([
+                        [0, 0],
+                        [width, height2]
+                    ])
                     .on("brush end", brushed);
 
                 //Varijabla za zumiranje i postavljanje granica zumiranja
                 var zoom = d3.zoom()
                     .scaleExtent([1, 20])
-                    .translateExtent([[0, 0], [width, height]])
-                    .extent([[0, 0], [width, height]])
+                    .translateExtent([
+                        [0, 0],
+                        [width, height]
+                    ])
+                    .extent([
+                        [0, 0],
+                        [width, height]
+                    ])
                     .on("zoom", zoomed);
 
                 //Linije za prvi graf
                 var line = d3.line()
-                    .x(function (d) { return x(d.godina); })
-                    .y(function (d) { return y(d.ukupno); });
+                    .x(function(d) {
+                        return x(d.godina);
+                    })
+                    .y(function(d) {
+                        return y(d.ukupno);
+                    });
 
                 //Linije za pomocni graf
                 var line2 = d3.line()
-                    .x(function (d) { return x2(d.godina); })
-                    .y(function (d) { return y2(d.ukupno); });
+                    .x(function(d) {
+                        return x2(d.godina);
+                    })
+                    .y(function(d) {
+                        return y2(d.ukupno);
+                    });
 
                 //Dodavanje granica oko grafa kako graf ne bi izlazio izvan prostora s lijeve i desne strane pri zumiranju
                 var clip = svg.append("defs").append("svg:clipPath")
@@ -218,8 +247,12 @@
                     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
                 //Postavljanje domene za glavni i pomocni graf x i y os
-                x.domain(d3.extent(dictionary, function (d) { return d.godina; }));
-                y.domain(d3.extent(dictionary, function (d) { return d.ukupno; }));
+                x.domain(d3.extent(dictionary, function(d) {
+                    return d.godina;
+                }));
+                y.domain(d3.extent(dictionary, function(d) {
+                    return d.ukupno;
+                }));
                 x2.domain(x.domain());
                 y2.domain(y.domain());
 
@@ -244,13 +277,22 @@
                     .attr("x2", 0)
                     .attr("y2", y(max))
                     .selectAll("stop")
-                    .data([
-                        { offset: "10%", color: "blue" },
-                        { offset: "80%", color: "red" }
+                    .data([{
+                            offset: "10%",
+                            color: "blue"
+                        },
+                        {
+                            offset: "80%",
+                            color: "red"
+                        }
                     ])
                     .enter().append("stop")
-                    .attr("offset", function (d) { return d.offset; })
-                    .attr("stop-color", function (d) { return d.color; });
+                    .attr("offset", function(d) {
+                        return d.offset;
+                    })
+                    .attr("stop-color", function(d) {
+                        return d.color;
+                    });
 
                 //Dodavanje linije sa bojom ovisno o y vrijednosti na glavni graf
                 chart.append("path")
@@ -313,8 +355,12 @@
                     x.domain(s.map(x2.invert, x2));
                     chart.select(".line")
                         .attr("d", d3.line()
-                            .x(function (d) { return x(d.godina) })
-                            .y(function (d) { return y(d.ukupno) })
+                            .x(function(d) {
+                                return x(d.godina)
+                            })
+                            .y(function(d) {
+                                return y(d.ukupno)
+                            })
                         );
 
                     focus.select(".axis--x").call(xAxis);
@@ -329,8 +375,12 @@
                     x.domain(t.rescaleX(x2).domain());
                     chart.select(".line")
                         .attr("d", d3.line()
-                            .x(function (d) { return x(d.godina) })
-                            .y(function (d) { return y(d.ukupno) })
+                            .x(function(d) {
+                                return x(d.godina)
+                            })
+                            .y(function(d) {
+                                return y(d.ukupno)
+                            })
                         );
 
                     focus.select(".axis--x").call(xAxis);
@@ -356,32 +406,25 @@
             if (prostor_kretanja == "grad_opcina") {
                 if (tip_migracije == "doseljeni") {
                     return "Doseljeni iz drugog grada/općine iste županije";
-                }
-                else {
+                } else {
                     return "Odseljeni u drugi grad/općinu iste županije";
                 }
-            }
-            else if (prostor_kretanja == "zupanija") {
+            } else if (prostor_kretanja == "zupanija") {
                 if (tip_migracije == "doseljeni") {
                     return "Doseljeni iz druge županije";
-                }
-                else {
+                } else {
                     return "Odseljeni u drugu županiju";
                 }
-            }
-            else if (prostor_kretanja == "inozemstvo") {
+            } else if (prostor_kretanja == "inozemstvo") {
                 if (tip_migracije == "doseljeni") {
                     return "Doseljeni iz inozemstva";
-                }
-                else {
+                } else {
                     return "Odseljeni u inozemstvo";
                 }
-            }
-            else {
+            } else {
                 if (tip_migracije == "doseljeni") {
                     return "Ukupno doseljeni";
-                }
-                else {
+                } else {
                     return "Ukupno odseljeni";
                 }
             }
@@ -392,17 +435,14 @@
             if ($("#container").width() > 1200) {
                 d3.select("g").attr("transform", "scale(" + $("#container").width() / 2200 + ")");
                 $("svg").height($("#container").width() * 0.37);
-            }
-            else if ($("#container").width() < 1200 && $("#container").width() > 800) {
+            } else if ($("#container").width() < 1200 && $("#container").width() > 800) {
                 d3.select("g").attr("transform", "scale(" + $("#container").width() / 2900 + ")");
                 $("svg").height($("#container").width() * 0.438);
-            }
-            else {
+            } else {
                 d3.select("g").attr("transform", "scale(" + $("#container").width() / 1500 + ")");
                 $("svg").height($("#container").width() * 0.538);
             }
         }
-
     </script>
 
     <footer>

@@ -15,41 +15,44 @@
 
 <body onload="sizeChange()">
     <header>
-        <h1>
+        <h1 style="text-align: center; width: 100%;">
             Prirodno kretanje stanovništva u Hrvatskoj
         </h1>
     </header>
     <div id="container">
         <div class="row">
             <div class="column" id="colMap">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-dark btnReset" onClick="resetZoom()">Reset zoom</button>
-                </div>
-                <div class="dropdown">
-                    <button type="button" class="btn btn-info dropdown-toggle">
-                        Tip migracije
-                    </button>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item" type="button" onClick="changeType('doseljeni_ukupno')">Doseljavanje</button>
-                        <button class="dropdown-item" type="button" onClick="changeType('odseljeni_ukupno')">Odseljavanje</button>
+
+                <div style="text-align: center; width: 100%;">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-dark btnReset" onClick="resetZoom()">Reset zoom</button>
                     </div>
-                </div>
-                <div class="dropdown">
-                    <button type="button" class="btn btn-info dropdown-toggle">
-                        Godina
-                    </button>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item" type="button" onClick="changeYear(2010)">2010</button>
-                        <button class="dropdown-item" type="button" onClick="changeYear(2011)">2011</button>
-                        <button class="dropdown-item" type="button" onClick="changeYear(2012)">2012</button>
-                        <button class="dropdown-item" type="button" onClick="changeYear(2013)">2013</button>
-                        <button class="dropdown-item" type="button" onClick="changeYear(2014)">2014</button>
-                        <button class="dropdown-item" type="button" onClick="changeYear(2015)">2015</button>
-                        <button class="dropdown-item" type="button" onClick="changeYear(2016)">2016</button>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-info dropdown-toggle" style="width: 180px;">
+                            Tip migracije
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item" type="button" onClick="changeType('doseljeni_ukupno')">Doseljavanje</button>
+                            <button class="dropdown-item" type="button" onClick="changeType('odseljeni_ukupno')">Odseljavanje</button>
+                        </div>
                     </div>
-                </div>
-                <div class="dropdown">
-                    <button type="button" class="btn btn-success" id="btnAnimation" onClick="startStop(0)">Pokreni animaciju</button>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-info dropdown-toggle" style="width: 180px;">
+                            Godina
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item" type="button" onClick="changeYear(2010)">2010</button>
+                            <button class="dropdown-item" type="button" onClick="changeYear(2011)">2011</button>
+                            <button class="dropdown-item" type="button" onClick="changeYear(2012)">2012</button>
+                            <button class="dropdown-item" type="button" onClick="changeYear(2013)">2013</button>
+                            <button class="dropdown-item" type="button" onClick="changeYear(2014)">2014</button>
+                            <button class="dropdown-item" type="button" onClick="changeYear(2015)">2015</button>
+                            <button class="dropdown-item" type="button" onClick="changeYear(2016)">2016</button>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-success" id="btnAnimation" onClick="startStop(0)">Pokreni animaciju</button>
+                    </div>
                 </div>
                 <h3 id="currentMigration"></h3>
                 <script>
@@ -86,10 +89,6 @@
                     setTitle();
                     setMap(year);
 
-                    //Postavljanje opsega zumiranja karte
-                    const zoom = d3.zoom()
-                        .scaleExtent([1, 13])
-                        .on("zoom", zoomed);
 
                     //Kreiranje projekcije
                     var projection = d3.geoMercator()
@@ -108,9 +107,13 @@
                         .attr("height", "100%")
                         .attr("class", "map")
 
+                    //Postavljanje opsega zumiranja karte
+                    const zoom = d3.zoom()
+                        .scaleExtent([1, 14])
+                        .on("zoom", zoomed);
 
-                    svg.call(zoom);
                     var g = svg.append("g");
+                    svg.call(zoom);
 
                     //Ucitaj topoJson Hrvatske
                     d3.json("cro_regv3.json", function(error, cro) {
@@ -133,7 +136,8 @@
                                     .style("opacity", 1);
                                 div.html("Klikni za informacije o županiji")
                                     .style("left", (d3.event.pageX) + "px")
-                                    .style("top", (d3.event.pageY - 28) + "px");
+                                    .style("top", (d3.event.pageY - 28) + "px")
+                                    .style("font-size", "max(0.4vh, 15px");
                             })
                             .on("mouseout", function(d) {
                                 div.transition()
@@ -246,23 +250,32 @@
                     //Uz to priblizava kartu za bolji pregled zupanije i gradova
                     //Priblizavanje i dimenzije ovise o velicini prozora
                     function clicked(d) {
-                        console.log($("#colMap").width());
                         const [
                             [x0, y0],
                             [x1, y1]
                         ] = path.bounds(d);
                         d3.event.stopPropagation();
-                        console.log(Math.max((x1 - x0) / $("#colMap").width()));
+                        console.log($("#colMap").width());
                         if ($("#colMap").width() > 1300) {
+                            let zoom = d3.zoom()
+                                .extent([
+                                    [0, 0],
+                                    [width, height]
+                                ])
+                                .scaleExtent([1, 23])
+                                .on("zoom", zoomed);
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
                                 .translate($("#colMap").width() / 5, $("#colMap").height() / 35.3)
                                 .scale(Math.min(3, 4.5 / Math.max((x1 - x0) / $("#colMap").width() / 9.5, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.4159, -(y0 + y1) / 2.7),
+                                .translate(-(x0 + x1) / 2.5159, -(y0 + y1) / 2.7),
                                 d3.mouse(svg.node())
                             );
                         } else if ($("#colMap").width() > 1000) {
+                            let zoom = d3.zoom()
+                                .scaleExtent([1, 73])
+                                .on("zoom", zoomed);
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
@@ -271,13 +284,22 @@
                                 .translate(-(x0 + x1) / 2.4159, -(y0 + y1) / 2.4),
                                 d3.mouse(svg.node())
                             );
+                        } else if ($("#colMap").width() > 900) {
+                            svg.transition().duration(850).call(
+                                zoom.transform,
+                                d3.zoomIdentity
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 24.3)
+                                .scale(Math.min(15, 0.4 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 3.34, -(y0 + y1) / 3),
+                                d3.mouse(svg.node())
+                            );
                         } else if ($("#colMap").width() > 800) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                .translate($("#colMap").width() / 5, $("#colMap").height() / 2.3)
-                                .scale(Math.min(15, 0.4/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2),
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 24.3)
+                                .scale(Math.min(15, 0.4 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 2),
                                 d3.mouse(svg.node())
                             );
                         } else if ($("#colMap").width() > 600) {
@@ -285,8 +307,8 @@
                                 zoom.transform,
                                 d3.zoomIdentity
                                 .translate($("#colMap").width() / 5, $("#colMap").height() / 2.3)
-                                .scale(Math.min(15, 0.4/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2),
+                                .scale(Math.min(15, 0.4 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 2),
                                 d3.mouse(svg.node())
                             );
                         } else if ($("#colMap").width() > 500) {
@@ -294,29 +316,39 @@
                                 zoom.transform,
                                 d3.zoomIdentity
                                 .translate($("#colMap").width() / 5, $("#colMap").height() / 2.3)
-                                .scale(Math.min(15, 0.4/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2),
+                                .scale(Math.min(15, 0.4 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 2),
                                 d3.mouse(svg.node())
                             );
-                        } else if ($("#colMap").width() > 350){
+                        } else if ($("#colMap").width() > 400) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
                                 .translate($("#colMap").width() / 5, $("#colMap").height() / 3.3)
-                                .scale(Math.min(15, 0.4/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2),
+                                .scale(Math.min(15, 0.4 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 2.2),
                                 d3.mouse(svg.node())
                             );
-                        }else {
+                        } else if ($("#colMap").width() > 300) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                .translate($("#colMap").width() / 5, $("#colMap").height() / 5.3)
-                                .scale(Math.min(17, 0.5/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2.1),
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 3.3)
+                                .scale(Math.min(15, 0.4 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 1.7),
+                                d3.mouse(svg.node())
+                            );
+                        } else {
+                            svg.transition().duration(850).call(
+                                zoom.transform,
+                                d3.zoomIdentity
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 3.3)
+                                .scale(Math.min(15, 0.4 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 1.68),
                                 d3.mouse(svg.node())
                             );
                         }
+
                         d3.selectAll('path').style('fill', "#115a99a4");
                         d3.select(this).style("fill", "#197cb65d");
                         document.getElementById("zupanija_info_naziv").innerHTML = d.properties.gn_name;
@@ -331,32 +363,59 @@
                     //Promjena velicine containera ovisno o velicini internet preglednika
                     function sizeChange() {
                         if ($("#container").width() > 1200) {
-                            d3.select("g").attr("transform", "scale(" + $("#container").width() / 2200 + ")");
-                            $("svg").height($("#container").width() * 0.37);
+                            d3.select("g").attr("transform", "scale(" + $("#container").width() / 3000 + ")");
+                            $("svg").height($("#container").width() * 0.354);
                         } else if ($("#container").width() < 1200 && $("#container").width() > 800) {
-                            d3.select("g").attr("transform", "scale(" + $("#container").width() / 2900 + ")");
+                            d3.select("g").attr("transform", "scale(" + $("#container").width() / 2600 + ")");
                             $("svg").height($("#container").width() * 0.438);
                         } else {
                             d3.select("g").attr("transform", "scale(" + $("#container").width() / 1500 + ")");
                             $("svg").height($("#container").width() * 0.538);
                         }
+                        resetZoom();
+                        resetZoom();
                     }
 
                     //Funkcija za zumiranje prilikom skrolanja misem
                     function zoomed() {
-                        const {
-                            transform
-                        } = d3.event;
-                        g.attr("transform", transform);
-                        g.attr("stroke-width", 1 / transform.k);
+                        g.attr("transform", d3.event.transform);
                     }
 
                     //Resetiranje zooma te centriranje karte
                     function resetZoom() {
-                        svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+                        if ($("#colMap").width() > 1500) {
+
+                            var transform = d3.zoomIdentity.translate(300, -30).scale(1)
+                        } else if ($("#colMap").width() > 1200) {
+
+                            var transform = d3.zoomIdentity.translate(200, 0).scale(0.8)
+                        } else if ($("#colMap").width() > 1100) {
+
+                            var transform = d3.zoomIdentity.translate(300, -15).scale(0.8)
+                        } else if ($("#colMap").width() > 1000) {
+
+                            var transform = d3.zoomIdentity.translate(200, -50).scale(0.78)
+                        } else if ($("#colMap").width() > 900) {
+
+                            var transform = d3.zoomIdentity.translate(150, -30).scale(0.7)
+                        } else if ($("#colMap").width() > 700) {
+
+                            var transform = d3.zoomIdentity.translate(40, -50).scale(0.61)
+                        } else if ($("#colMap").width() > 500) {
+
+                            var transform = d3.zoomIdentity.translate(65, -35).scale(0.51)
+                        } else if ($("#colMap").width() > 400) {
+
+                            var transform = d3.zoomIdentity.translate(20, -27).scale(0.38)
+                        } else if ($("#colMap").width() > 300) {
+                            var transform = d3.zoomIdentity.translate(43, -14).scale(0.25)
+                        } else {
+                            var transform = d3.zoomIdentity.translate(23, -5).scale(0.19)
+                        }
+                        svg.transition().duration(850).call(zoom.transform, transform);
                         d3.selectAll('path').style('fill', null);
-                        (document.getElementsByClassName("column-xs-3 zupanija_info"))[0].style.display = "none";
-                        (document.getElementsByClassName("column-xs-3 grad_info"))[0].style.display = "none";
+                        (document.getElementsByClassName("zupanija_info"))[0].style.display = "none";
+                        (document.getElementsByClassName("grad_info"))[0].style.display = "none";
                     }
 
                     //Prebrojavanje koliko ima gradova u danoj zupaniji
@@ -457,11 +516,11 @@
                     }
                 </script>
             </div>
-            <div class="column-xs-3 legenda">
-                <h3>Legenda</h3>
-                <ul class="list-group">
+            <div class="column-xs-6 legenda">
+                <h3 style="text-align: center;">Legenda</h3>
+                <ul class="list-group" style="text-align: center; width: 90%;">
                     <h6 style="margin-top:10px">Oznake</h6>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item d-flex justify-content-between align-items-center ">
                         Grad ili općina
                         <span class="rect" style="height:15px;width:15px;background-color: #030303;"></span>
                     </li>
@@ -485,8 +544,8 @@
                 </ul>
 
             </div>
-            <div class="column-xs-3 zupanija_info">
-                <h3 class="info">Informacije o županiji</h3>
+            <div class="column-xs-6 zupanija_info">
+                <h3 class="info" style="text-align: center;">Informacije o županiji</h3>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <h6 style="margin-top:10px">Naziv</h6>
@@ -514,8 +573,8 @@
                     </li>
                 </ul>
             </div>
-            <div class="column-xs-3 grad_info">
-                <h3 class="info">Informacije o gradu</h3>
+            <div class="column-xs-6 grad_info">
+                <h3 class="info" style="text-align: center;">Informacije o gradu</h3>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <h6 style="margin-top:10px">Županija</h6>
