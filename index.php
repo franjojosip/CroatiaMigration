@@ -93,10 +93,10 @@
 
                     //Kreiranje projekcije
                     var projection = d3.geoMercator()
-                        .scale(6850)
-                        .rotate([-180, 0])
                         .center([0, 10])
-                        .translate([width * 10.58, height * 4.78]);
+                        .scale(6000)
+                        .translate([17600, 4550])
+                        .rotate([-180, 0]);
 
                     var path = d3.geoPath()
                         .projection(projection);
@@ -106,9 +106,8 @@
                         .append("svg")
                         .attr("width", "100%")
                         .attr("height", "100%")
-                        .style("background-color", "red")
                         .attr("class", "map")
-                        .append("g")
+
 
                     svg.call(zoom);
                     var g = svg.append("g");
@@ -247,54 +246,74 @@
                     //Uz to priblizava kartu za bolji pregled zupanije i gradova
                     //Priblizavanje i dimenzije ovise o velicini prozora
                     function clicked(d) {
+                        console.log($("#colMap").width());
                         const [
                             [x0, y0],
                             [x1, y1]
                         ] = path.bounds(d);
                         d3.event.stopPropagation();
-                        if ($("#colMap").width() > 1000) {
+                        console.log(Math.max((x1 - x0) / $("#colMap").width()));
+                        if ($("#colMap").width() > 1300) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                .translate($("#colMap").width() / 7, $("#colMap").height() / 2.3)
-                                .scale(Math.min(4, 0.9 / Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) / 2.1),
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 35.3)
+                                .scale(Math.min(3, 4.5 / Math.max((x1 - x0) / $("#colMap").width() / 9.5, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.4159, -(y0 + y1) / 2.7),
+                                d3.mouse(svg.node())
+                            );
+                        } else if ($("#colMap").width() > 1000) {
+                            svg.transition().duration(850).call(
+                                zoom.transform,
+                                d3.zoomIdentity
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 35.3)
+                                .scale(Math.min(4, 4.5 / Math.max((x1 - x0) / $("#colMap").width() / 9.5, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.4159, -(y0 + y1) / 2.4),
                                 d3.mouse(svg.node())
                             );
                         } else if ($("#colMap").width() > 800) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                .translate($("#colMap").width() / 5.5, $("#colMap").height() / 1)
-                                .scale(Math.min(14, 0.9 / Math.max((x1 - x0) / $("#colMap").width() * 5.138, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 7.2, -(y0 + y1) / 1.7),
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 2.3)
+                                .scale(Math.min(15, 0.4/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2),
                                 d3.mouse(svg.node())
                             );
                         } else if ($("#colMap").width() > 600) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                .translate($("#colMap").width() / 25, $("#colMap").height() / 14.3)
-                                .scale(Math.min(14, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.36, -(y0 + y1) / 2.3121),
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 2.3)
+                                .scale(Math.min(15, 0.4/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2),
                                 d3.mouse(svg.node())
                             );
                         } else if ($("#colMap").width() > 500) {
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                .translate($("#colMap").width() / 25, $("#colMap").height() / 17.3)
-                                .scale(Math.min(5, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.6159, -(y0 + y1) / 2.81),
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 2.3)
+                                .scale(Math.min(15, 0.4/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2),
                                 d3.mouse(svg.node())
                             );
-                        } else {
+                        } else if ($("#colMap").width() > 350){
                             svg.transition().duration(850).call(
                                 zoom.transform,
                                 d3.zoomIdentity
-                                .translate($("#colMap").width() / 25, $("#colMap").height() / 17.3)
-                                .scale(Math.min(5, 1.9 / Math.max((x1 - x0) / $("#colMap").width() / 4.5, (y1 - y0) / $("#colMap").height())))
-                                .translate(-(x0 + x1) / 2.4159, -(y0 + y1) / 2.65),
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 3.3)
+                                .scale(Math.min(15, 0.4/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2),
+                                d3.mouse(svg.node())
+                            );
+                        }else {
+                            svg.transition().duration(850).call(
+                                zoom.transform,
+                                d3.zoomIdentity
+                                .translate($("#colMap").width() / 5, $("#colMap").height() / 5.3)
+                                .scale(Math.min(17, 0.5/ Math.max((x1 - x0) / $("#colMap").width() * 0.758, (y1 - y0) / $("#colMap").height())))
+                                .translate(-(x0 + x1) / 2.34, -(y0 + y1) /2.1),
                                 d3.mouse(svg.node())
                             );
                         }

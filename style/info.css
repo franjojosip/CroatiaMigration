@@ -218,11 +218,24 @@ g {
     margin-left: 40%;
   }
   .dropdown {
-    right: 4%;
+    right: auto !important;
+    text-align: center !important;
+    margin: 0 auto;
   }
 
   .dropdown-menu {
     margin: 0 !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #divBack {
+    margin-left: 33%;
+  }
+
+  .dropdown {
+    margin: 0 auto 20px auto !important;
+    width: 100%;
   }
 }
 
@@ -250,6 +263,6 @@ footer {
   font-style: Roboto;
   font-size: 16px;
 }
-p{
+p {
   font-family: Roboto;
 }

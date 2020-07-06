@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="shortcut icon" href="images/main.png">
-    <script src="scripts/d3.js"></script>
-    <script src="scripts/jquery.js"></script>
-    <script src="scripts/topojson.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 </head>
 
 <body onload="sizeChange()">
@@ -22,7 +22,7 @@
     </header>
     <h3 id="zupanija"></h3>
     <div id="divBack">
-        <a type="button" class="btn btn-dark" href="index.php">Glavna stranica</a>
+        <a type="button" class="btn btn-dark" href="/index.php">Glavna stranica</a>
     </div>
     <div id="infoContainer">
         <div class="row">

@@ -3,6 +3,7 @@ h1 {
   font-family: Roboto;
   font-weight: bold;
   font-size: 33px;
+  width: 100%;
   margin: 1% !important;
 }
 
@@ -73,7 +74,7 @@ li {
   display: inline-block;
 }
 
-.colMap {
+#colMap {
   width: 50%;
 }
 
@@ -83,7 +84,7 @@ li {
 
 .dropdown {
   display: inline-block;
-  margin-left: 10px;
+  margin: 10px;
 }
 
 #currentMigration {
@@ -118,19 +119,23 @@ li {
 /* Container for flexboxes */
 .row {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
 }
 
-/* Create four equal columns */
+/* Create three equal columns */
 .column {
   flex: 33.33%;
   padding: 20px;
 }
 
-/* On screens that are 992px wide or less, go from four columns to two columns */
+/* On screens that are 992px wide or less, go from three columns to two columns */
 @media screen and (max-width: 850px) {
   .column {
-    flex: 80%;
+    flex: 90%;
+  }
+  #colMap {
+    max-width: 100%;
   }
   .info {
     margin-bottom: 0px;
@@ -157,6 +162,7 @@ li {
 
 /* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 900px) {
+
   .row {
     flex-direction: column;
     align-items: center;
