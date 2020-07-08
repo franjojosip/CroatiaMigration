@@ -246,6 +246,7 @@ g {
 @media screen and (max-width: 500px) {
   #divBack {
     width: 180px !important;
+    min-height: 40px;
   }
 
   .dropdown {
@@ -259,7 +260,7 @@ g {
   }
   .dropdown-toggle{
     height: fit-content;
-    min-height: fit-content;
+    min-height: 40px;
     margin-bottom: 10px !important;
   }
 }
