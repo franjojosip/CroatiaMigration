@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="dropdown">
-                        <a type="button" class="btn btn-info dropdown-toggle" href="/index.php">Glavna stranica</a>
+                        <a type="button" class="btn btn-info btnBack" href="/index.php">Glavna stranica</a>
                     </div>
                 </div>
                 <h5 id="graphTitle"></h5>
