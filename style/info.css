@@ -259,7 +259,7 @@ g {
   }
   .dropdown-toggle{
     height: fit-content;
-    min-height: 50px;
+    min-height: fit-content;
     margin-bottom: 10px !important;
   }
 }
