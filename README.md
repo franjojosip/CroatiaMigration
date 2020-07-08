@@ -31,3 +31,8 @@ S desne strane grafa se nalaze metodološka objašnjenja glavnih stavki projekta
 Projekt se jednostavno skida odabirom Clone gdje se kopira link github projekta te pomoću GitBasha ili drugog programa skida na lokalno računalo.
 Drugi način je skidanje čitavog zipa
 Projektne datoteke su tipa php te ih je moguće otvoriti pomoću Xamppa ili sličnog programa.
+
+### Povezana literatura
+- [TopoJSON](https://github.com/topojson/topojson)
+- [Blocks org](https://bl.ocks.org/)
+- [Graph gallery](https://www.d3-graph-gallery.com/)
